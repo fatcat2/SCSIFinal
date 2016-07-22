@@ -2,10 +2,18 @@ import cv2
 import numpy
 
 def trimToRange(image, low=[0, 0, 0], high=[180, 255, 255]):
-    low, high = numpy.array(low), numpy.array(high)
-    return cv2.inRange(image, low, high)
+    """Accepts an image and two HSV tuples. The first must have all values lower than the second.
+    Sets all pixels in the image with higher H,S, and V values then the first and lower than the second to white and all
+     other pixels to black. Returns the modified image.
+    """
+    lowv, highv = numpy.array(low), numpy.array(high)
+    return cv2.inRange(image, lowv, highv)
 
 def prepImage(image):
+    """Default function for the evaluateForContours function.
+    Accepts and returns an image.
+    Opens and then closes the image, using a kernel of a 17x17 ellipse.
+    """
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (17, 17))
     image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
     image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
@@ -13,7 +21,11 @@ def prepImage(image):
 
 
 def evaluateForContours(image, HSVRanges, morphing=prepImage):
-    """"""
+    """Accepts an image, a list of pairs of HSV tuples, each pair defining a range of values,
+    and an optional processing function. It passes the image and each range to the trimToRange function
+    It then applies the function, then finds all the contours.
+    It returns a list containing a list for each range that contains all the contours for that range.
+    """
     out=[]
     for i in HSVRanges:
         newImage=image
@@ -24,7 +36,9 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
     return out
 
 def getCenters(contours):
-    """Accepts a list of lists of contours, each sublist belonging to a specific color. It then """
+    """Accepts a list of lists of contours, each sublist belonging to a specific color.
+    It then determines the center of each contour, returning it and the points of the minimum area bounding rectangle.
+    """
     out=[]
     for i in contours:
         for j in i:
@@ -42,10 +56,10 @@ if __name__=="__main__":
         img2 = numpy.zeros(img1.shape, numpy.uint8)
         if contours is not None and len(contours)>0:
             centers=getCenters(contours)
-            for i in centers:
-                x=numpy.array(i)[0]
-                y=numpy.array(i)[1]
-                cv2.circle(img2, tuple(i), 10, (0, 0, 255), -1)
+            for c in centers:
+                x=numpy.array(c)[0]
+                y=numpy.array(c)[1]
+                cv2.circle(img2, tuple(c), 10, (0, 0, 255), -1)
         null = numpy.zeros(img1.shape[0:2], numpy.uint8)
         newsize=(600,400)
         img2=cv2.resize(img2,newsize)

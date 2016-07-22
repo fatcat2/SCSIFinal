@@ -35,15 +35,17 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
         out.append(contours)
     return out
 
-def getCenters(contours):
+def getCentersAndBoxes(contours):
     """Accepts a list of lists of contours, each sublist belonging to a specific color.
-    It then determines the center of each contour, returning it and the points of the minimum area bounding rectangle.
+    It then determines the center of each contour.
+    Returns a list containing a list for each color, which holds pairs of center points and boxes.
     """
     out=[]
     for i in contours:
         for j in i:
-            corners=cv2.boxPoints(cv2.minAreaRect(j))
-            out.append([int(numpy.sum(corners[:,0])/4), int(numpy.sum(corners[:,1])/4)])
+            corners = cv2.boxPoints(cv2.minAreaRect(j))  # Get minimum area rectangle, then gets the points
+            out.append([int(numpy.sum(corners[:, 0])/4), int(numpy.sum(corners[:, 1])/4)])
+            #   Average the points of the rectangle, then add that point and the points of the rectangle to the output
     return out
 
 if __name__=="__main__":
@@ -52,13 +54,13 @@ if __name__=="__main__":
         ret, img1 = vidCap.read()
         origImg = img1
         img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
-        contours=evaluateForContours(img1, [[(40, 120, 60), (80, 255, 255)], [(100, 120, 60), (140, 255, 255)]])
+        contours = evaluateForContours(img1, [[(40, 120, 60), (80, 255, 255)], [(100, 120, 60), (140, 255, 255)]])
         img2 = numpy.zeros(img1.shape, numpy.uint8)
-        if contours is not None and len(contours)>0:
-            centers=getCenters(contours)
+        if contours is not None and len(contours) > 0:
+            centers=getCentersAndBoxes(contours)
             for c in centers:
-                x=numpy.array(c)[0]
-                y=numpy.array(c)[1]
+                x = numpy.array(c)[0]
+                y = numpy.array(c)[1]
                 cv2.circle(img2, tuple(c), 10, (0, 0, 255), -1)
         null = numpy.zeros(img1.shape[0:2], numpy.uint8)
         newsize=(600,400)
