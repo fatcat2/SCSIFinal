@@ -19,3 +19,5 @@ class TrackedObject:
 		return tracking_window
 	def getCenterPoint(self):
 		return centerpoint
+	def updateObk(self, coords):
+		self.centerpoint = coords
