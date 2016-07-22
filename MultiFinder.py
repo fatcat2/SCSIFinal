@@ -59,9 +59,9 @@ if __name__=="__main__":
         if contours is not None and len(contours) > 0:
             centers=getCentersAndBoxes(contours)
             for c in centers:
-                x = numpy.array(c)[0]
-                y = numpy.array(c)[1]
-                cv2.circle(img2, tuple(c), 10, (0, 0, 255), -1)
+                x = numpy.array(c[0])[0]
+                y = numpy.array(c[0])[1]
+                cv2.circle(img2, tuple(c[0]), 10, (0, 0, 255), -1)
         null = numpy.zeros(img1.shape[0:2], numpy.uint8)
         newsize=(600,400)
         img2=cv2.resize(img2,newsize)
