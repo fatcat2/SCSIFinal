@@ -1,0 +1,1 @@
+Requries Python 2.7, OpenCV, and NumPy
