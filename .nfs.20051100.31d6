@@ -5,9 +5,9 @@ import numpy as np
 import cv2
 if __name__ == "__main__":
     colorList = [((40, 120, 60), (80, 255, 255)), ((100, 120, 60), (140, 255, 255))]
-    trackingItems = {}
+    trackedDict = {}
     for i in colorList:
-        trackingItems[i] = []
+        trackedDict[i] = []
     vidCap = cv2.VideoCapture(0)
     #take in initial image to determine objects to track
     ret, imgInit = vidCap.read()
@@ -18,12 +18,10 @@ if __name__ == "__main__":
         for c in range(len(centers)):
             for j in centers[c]:
                 x = to.TrackedObject(j[1], j[0])
-                trackingItems[colorList[c]].append(x)
+                trackedDict[colorList[c]].append(x)
+            print x
     while True:
         ret, img1 = vidCap.read()
-        for i in trackingItems.values():
-            for j in i:
-                j.update(img1)
         cv2.imshow("output", img1)
         val = cv2.waitKey(10) & 0xFF
         if val == 255:   # No input   (Nothing)
