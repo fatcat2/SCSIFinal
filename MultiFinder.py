@@ -43,9 +43,11 @@ def getCentersAndBoxes(contours):
     """
     out = []
     for i in contours:
+        o2=[]
         for j in i:
             corners = cv2.boxPoints(cv2.minAreaRect(j))  # Get minimum area rectangle, then gets the points
-            out.append([[int(numpy.sum(corners[:, 0])/4), int(numpy.sum(corners[:, 1])/4)], cv2.minAreaRect(j)])
+            o2.append([[int(numpy.sum(corners[:, 0])/4), int(numpy.sum(corners[:, 1])/4)], cv2.minAreaRect(j)])
+        out.append(o2)
     return out
 
 if __name__=="__main__":
