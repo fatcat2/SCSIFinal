@@ -1,10 +1,11 @@
 class TrackedObject:
-	hist
-	tracking_window
-	centerpoint
+	hist = None
+	tracking_window = None
+	centerpoint = (0, 0)
 	def __init__(self, box, center):
 		tracking_window = box
-
+		centerpoint = center
+	
 	#Getters and Setters
 	def setHist(self, hist):
 		self.hist = hist
