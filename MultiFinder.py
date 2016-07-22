@@ -28,7 +28,7 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
     """
     out=[]
     for i in HSVRanges:
-        newImage=image
+        newImage = image
         grayImg = trimToRange(newImage, i[0], i[1])
         grayImg = morphing(grayImg)
         im2, contours, hier = cv2.findContours(grayImg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -37,10 +37,11 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
 
 def getCentersAndBoxes(contours):
     """Accepts a list of lists of contours, each sublist belonging to a specific color.
-    It then determines the center of each contour.
-    Returns a list containing a list for each color, which holds pairs of center points and boxes.
+    It then determines the center of each contour by constructing the minimum area rectangle,
+        then averaging the corners.
+    Returns a list containing a list for each color, which holds pairs of center points and rotatedRects.
     """
-    out=[]
+    out = []
     for i in contours:
         for j in i:
             corners = cv2.boxPoints(cv2.minAreaRect(j))  # Get minimum area rectangle, then gets the points
