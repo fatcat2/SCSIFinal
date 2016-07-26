@@ -52,7 +52,6 @@ def getCentersAndBoxes(contours):
         out.append(o2)
     return out
 
-<<<<<<< HEAD
 
 def HSV2BGR(color):
     print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
