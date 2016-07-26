@@ -64,7 +64,11 @@ class TrackedObject:
     def update(self, image):
         self.setImage(image)
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
+        # print self.prob.shape
         self.prob &= self.maskImage
+        print self.tracking_window.shape
+        cv2.imshow("prob", self.prob)
+        cv2.waitKey(0)
         term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
         self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, term_crit)
         # TODO: Add code for Camshift
