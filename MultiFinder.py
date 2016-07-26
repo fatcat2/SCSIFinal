@@ -68,10 +68,9 @@ if __name__ == "__main__":
     for c in ranges:
         colors.append(HSV2BGR(numpy.mean(numpy.array(c), axis=0).tolist()))
     pastCenters = []
-=======
+
 if __name__=="__main__":
-    vidCap = cv2.VideoCapture(0)    
->>>>>>> origin/master
+    vidCap = cv2.VideoCapture(0)
     while True:
         ret, img1 = vidCap.read()
         origImg = img1
