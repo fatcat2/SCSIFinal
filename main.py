@@ -14,13 +14,14 @@ if __name__ == "__main__":
     ret, imgInit = vidCap.read()
     imgInit = cv2.cvtColor(imgInit, cv2.COLOR_BGR2HSV)
     cv2.imshow("Test", imgInit)
-    cv2.waitKey(0)
+    cv2.waitKey(100)
     contours = mf.evaluateForContours(imgInit, colorList)
     if contours is not None and len(contours) > 0:
         centers = mf.getCentersAndBoxes(contours)
         for c in range(len(centers)):
             for j in centers[c]:
-                x = to.TrackedObject(j[1], j[0])
+                print j[1]
+                x = to.TrackedObject(j[1], j[0], imgInit)
                 trackingItems[colorList[c]].append(x)
     while True:
         img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)

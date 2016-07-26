@@ -15,18 +15,18 @@ class TrackedObject:
 
     def __init__(self, box, center, image):
         self.tracking_window = box
-        x, y, w, h = box
+        x, y, w, h = box[0]+box[1]
         self.centerpoint = center
         self.setImage(image)
         self.initHSV()
         # TODO: Set up get hist code to prevent colorshifting over time
 
     def initHSV(self):
-        self.maskROI = maskImage[y:y + h, x:x + w]
-        self.hsvROI = hsvImage[y:y + h, x:x + w]
-        self.setHist(cv2.calcHist([hsvROI], [0], maskROI, [64], [0, 255]))
-        cv2.normalize(hist, hist, 0, 255, cv2.normalize_MINMAX)  # reduces the extremes
-        self.hist = hist.reshape(-1)
+        self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
+        self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
+        self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [64], [0, 255]))
+        cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
+        self.hist = self.hist.reshape(-1)
 
         # Getters and Setters
 
@@ -38,33 +38,33 @@ class TrackedObject:
         self.maskImage = cv2.inRange(hsvImage, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
 
     def setTrackingWindow(self, trackwindow):
-        self.tracking_window = trackingwindow
+        self.tracking_window = trackwindow
 
     def setCenterPoint(self, cp):
         self.centerpoint = cp
 
     def getHist(self):
-        return hist
+        return self.hist
 
     def getTrackWindow(self):
-        return tracking_window
+        return self.tracking_window
 
     def getCenterPoint(self):
-        return centerpoint
+        return self.centerpoint
 
     def getProbability(self):
-        return prob
+        return self.prob
 
     def getTrackBox(self):
-        return track_box
+        return self.track_box
 
     def updateObk(self, coords):
         self.centerpoint = coords
 
     def update(self, image):
-        setImage(image)
-        self.prob = cv2.calcBackProject([hsv], [0], hist, [0, 180], 1)
+        self.setImage(image)
+        self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
         term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
-        self.track_box, self.track_window = cv2.CamShift(prob, track_window, term_crit)
+        self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, term_crit)
         # TODO: Add code for Camshift
