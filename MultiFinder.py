@@ -53,7 +53,7 @@ def getCentersAndBoxes(contours):
     return out
 
 
-def HSV2BGR(color):
+def hsv2bgr(color):
     print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
     return (numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255).tolist()
 
@@ -66,10 +66,10 @@ if __name__ == "__main__":
               [(130, 120, 60),  (170, 255, 255)]]
     colors = []
     for c in ranges:
-        colors.append(HSV2BGR(numpy.mean(numpy.array(c), axis=0).tolist()))
+        colors.append(hsv2bgr(numpy.mean(numpy.array(c), axis=0).tolist()))
     pastCenters = []
 
-if __name__=="__main__":
+if __name__ == "__main__":
     vidCap = cv2.VideoCapture(0)
     while True:
         ret, img1 = vidCap.read()
