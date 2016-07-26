@@ -2,10 +2,11 @@ class TrackedObject:
     hist = None
     tracking_window = None
     centerpoint = (0, 0)
-
-    def __init__(self, box, center):
+    image = None
+    def __init__(self, box, center, image):
         self.tracking_window = box
         self.centerpoint = center
+        self.image = image
         # TODO: Set up get hist code to prevent colorshifting over time
 
         # Getters and Setters
