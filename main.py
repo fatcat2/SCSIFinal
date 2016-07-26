@@ -12,6 +12,8 @@ if __name__ == "__main__":
     #take in initial image to determine objects to track
     ret, imgInit = vidCap.read()
     imgInit = cv2.cvtColor(imgInit, cv2.COLOR_BGR2HSV)
+    cv2.imshow("Test", imgInit)
+    cv2.waitKey(0)
     contours = mf.evaluateForContours(imgInit, colorList)
     if contours is not None and len(contours) > 0:
         centers = mf.getCentersAndBoxes(contours)
