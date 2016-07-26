@@ -13,8 +13,8 @@ if __name__ == "__main__":
     #take in initial image to determine objects to track
     ret, imgInit = vidCap.read()
     imgInit = cv2.cvtColor(imgInit, cv2.COLOR_BGR2HSV)
-    cv2.imshow("Test", imgInit)
-    cv2.waitKey(100)
+    ##cv2.imshow("Test", imgInit)
+    ##cv2.waitKey(100)
     contours = mf.evaluateForContours(imgInit, colorList)
     if contours is not None and len(contours) > 0:
         centers = mf.getCentersAndBoxes(contours)
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         for i in trackingItems.keys():
             for j in trackingItems[i]:
                 j.update(img1)
-                cv2.circle(img1, j.getCenter(), 4, averageColors[colorList.index(i)], -1)
-        img1=cv2.cvtColor(vidCap.read()[1], cv2.COLOR_HSV2BGR)
+                cv2.circle(img1, tuple(j.getCenterPoint()), 4, tuple(averageColors[colorList.index(i)]), -1)
+        img1=cv2.cvtColor(img1, cv2.COLOR_HSV2BGR)
         cv2.imshow("output", img1)
         val = cv2.waitKey(10) & 0xFF
         if val == 255:   # No input   (Nothing)
