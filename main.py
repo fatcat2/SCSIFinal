@@ -23,11 +23,12 @@ if __name__ == "__main__":
                 x = to.TrackedObject(j[1], j[0])
                 trackingItems[colorList[c]].append(x)
     while True:
-        ret, img1 = vidCap.read()
+        img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)
         for i in trackingItems.keys():
             for j in trackingItems[i]:
                 j.update(img1)
                 cv2.circle(img1, j.getCenter(), 4, averageColors[colorList.index(i)], -1)
+        img1=cv2.cvtColor(vidCap.read()[1], cv2.COLOR_HSV2BGR)
         cv2.imshow("output", img1)
         val = cv2.waitKey(10) & 0xFF
         if val == 255:   # No input   (Nothing)
