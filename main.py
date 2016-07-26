@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 if __name__ == "__main__":
     colorList = [((40, 120, 60), (80, 255, 255)), ((100, 120, 60), (140, 255, 255))]
+    averageColors=mf.getAverageColors(colorList)
     trackingItems = {}
     for i in colorList:
         trackingItems[i] = []
@@ -23,9 +24,10 @@ if __name__ == "__main__":
                 trackingItems[colorList[c]].append(x)
     while True:
         ret, img1 = vidCap.read()
-        for i in trackingItems.values():
-            for j in i:
+        for i in trackingItems.keys():
+            for j in trackingItems[i]:
                 j.update(img1)
+                cv2.circle(img1, j.getCenter(), 4, averageColors[colorList.index(i)], -1)
         cv2.imshow("output", img1)
         val = cv2.waitKey(10) & 0xFF
         if val == 255:   # No input   (Nothing)

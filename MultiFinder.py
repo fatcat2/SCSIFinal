@@ -57,6 +57,12 @@ def hsv2bgr(color):
     print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
     return (numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255).tolist()
 
+def getAverageColors(ranges):
+    colors = []
+    for c in ranges:
+        colors.append(hsv2bgr(numpy.mean(numpy.array(c), axis=0).tolist()))
+    return colors
+
 
 if __name__ == "__main__":
     vidCap = cv2.VideoCapture(-1)
@@ -64,9 +70,7 @@ if __name__ == "__main__":
               [(100, 120, 60),  (140, 255, 255)],
               [(20,  120, 60),  (40, 255, 255)],
               [(130, 120, 60),  (170, 255, 255)]]
-    colors = []
-    for c in ranges:
-        colors.append(hsv2bgr(numpy.mean(numpy.array(c), axis=0).tolist()))
+    colors = getAverageColors(ranges)
     pastCenters = []
 
 if __name__ == "__main__":
