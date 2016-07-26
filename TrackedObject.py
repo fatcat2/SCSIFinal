@@ -62,9 +62,10 @@ class TrackedObject:
         self.centerpoint = coords
 
     def update(self, image):
-        self.setImage(image)
+        nImg=image
+        self.setImage(nImg)
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
         term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
-        self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, term_crit)
+        #self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, term_crit)
         # TODO: Add code for Camshift
