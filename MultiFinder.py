@@ -51,7 +51,7 @@ def getCentersAndBoxes(contours):
     return out
 
 if __name__=="__main__":
-    vidCap = cv2.VideoCapture(1)
+    vidCap = cv2.VideoCapture(0)    
     while True:
         ret, img1 = vidCap.read()
         origImg = img1
