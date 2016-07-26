@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import MultiFinder as mf
+
 
 
 class TrackedObject:
@@ -11,14 +13,16 @@ class TrackedObject:
     maskImage = None
     hsvROI = None
     prob = None
+    term_crit = None
     x, y, w, h = 0, 0, 0, 0
 
     def __init__(self, box, center, image):
         self.tracking_window = box
-        x, y, w, h = box[0]+box[1]
+        self.x, self.y, self.w, self.h = box
         self.centerpoint = center
         self.setImage(image)
         self.initHSV()
+        self.term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
         # TODO: Set up get hist code to prevent colorshifting over time
 
     def initHSV(self):
@@ -61,15 +65,19 @@ class TrackedObject:
     def updateObk(self, coords):
         self.centerpoint = coords
 
+    def updateCenter(self):
+        center = (self.tracking_window[0]+self.tracking_window[2]/2,
+                  self.tracking_window[1]+self.tracking_window[3]/2)
+        #center = self.track_box[0]
+        center=mf.intTuple(center)
+        self.setCenterPoint(center)
+
+
     def update(self, image):
         nImg=image
-        self.setImage(nImg)
-        self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
-        # print self.prob.shape
+        self.setImage(cv2.blur(nImg, (5,5)))
+        self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 188], 1)
         self.prob &= self.maskImage
-        print self.tracking_window.shape
-        cv2.imshow("prob", self.prob)
-        cv2.waitKey(0)
-        term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
-        #self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, term_crit)
+        self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, self.term_crit)
+        self.updateCenter()
         # TODO: Add code for Camshift

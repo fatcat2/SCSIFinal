@@ -51,9 +51,11 @@ def getCentersAndBoxes(contours):
         out.append(o2)
     return out
 
+def intTuple(tIn):
+    return tuple(numpy.array(tIn).astype(numpy.int64))
 
 def hsv2bgr(color):
-    print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
+    #print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
     return (numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255).tolist()
 
 def getAverageColors(ranges):
@@ -64,16 +66,13 @@ def getAverageColors(ranges):
 
 
 if __name__ == "__main__":
-    vidCap = cv2.VideoCapture(-1)
+    vidCap = cv2.VideoCapture(0)
     ranges = [[(40,  120, 60),  (80, 255, 255)],
               [(100, 120, 60),  (140, 255, 255)],
               [(20,  120, 60),  (40, 255, 255)],
               [(130, 120, 60),  (170, 255, 255)]]
     colors = getAverageColors(ranges)
     pastCenters = []
-
-if __name__ == "__main__":
-    vidCap = cv2.VideoCapture(0)
     while True:
         ret, img1 = vidCap.read()
         origImg = img1
