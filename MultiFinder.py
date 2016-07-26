@@ -85,7 +85,6 @@ if __name__ == "__main__":
                     pastCenters.append([j[0], colors[c]])
         for c in pastCenters:
             cv2.circle(img2, tuple(c[0]), 20, c[1], -1)
-
         null = numpy.zeros(img1.shape[0:2], numpy.uint8)
         newsize = tuple(numpy.array(img1.shape[0:2][::-1])/2)
         img2=cv2.resize(img2,newsize)
