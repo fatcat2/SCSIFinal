@@ -1,4 +1,3 @@
-from Carbon.QuickTime import kGraphicsExportGetColorSyncProfileSelect
 import colorsys
 import cv2
 import numpy
