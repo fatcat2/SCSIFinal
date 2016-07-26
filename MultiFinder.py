@@ -1,3 +1,5 @@
+from Carbon.QuickTime import kGraphicsExportGetColorSyncProfileSelect
+import colorsys
 import cv2
 import numpy
 
@@ -50,22 +52,39 @@ def getCentersAndBoxes(contours):
         out.append(o2)
     return out
 
-if __name__=="__main__":
-    vidCap = cv2.VideoCapture(1)
+
+def HSV2BGR(color):
+    print color, numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255
+    return (numpy.array(colorsys.hsv_to_rgb(color[0]/180, color[1]/255, color[2]/255)[::-1])*255).tolist()
+
+
+if __name__ == "__main__":
+    vidCap = cv2.VideoCapture(-1)
+    ranges = [[(40,  120, 60),  (80, 255, 255)],
+              [(100, 120, 60),  (140, 255, 255)],
+              [(20,  120, 60),  (40, 255, 255)],
+              [(130, 120, 60),  (170, 255, 255)]]
+    colors = []
+    for c in ranges:
+        colors.append(HSV2BGR(numpy.mean(numpy.array(c), axis=0).tolist()))
+    pastCenters = []
     while True:
         ret, img1 = vidCap.read()
         origImg = img1
         img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
-        contours = evaluateForContours(img1, [[(40, 120, 60), (80, 255, 255)], [(100, 120, 60), (140, 255, 255)]])
-        img2 = numpy.zeros(img1.shape, numpy.uint8)
+        contours = evaluateForContours(img1, ranges)
+        #img2 = numpy.zeros(img1.shape, numpy.uint8)
+        img2 = origImg#prepImage(origImg)
         if contours is not None and len(contours) > 0:
-            centers=getCentersAndBoxes(contours)
-            for c in centers:
-                x = numpy.array(c[0])[0]
-                y = numpy.array(c[0])[1]
-                cv2.circle(img2, tuple(c[0]), 10, (0, 0, 255), -1)
+            centers = getCentersAndBoxes(contours)
+            for c in range(len(centers)):
+                for j in centers[c]:
+                    pastCenters.append([j[0], colors[c]])
+        for c in pastCenters:
+            cv2.circle(img2, tuple(c[0]), 20, c[1], -1)
+
         null = numpy.zeros(img1.shape[0:2], numpy.uint8)
-        newsize=(600,400)
+        newsize = tuple(numpy.array(img1.shape[0:2][::-1])/2)
         img2=cv2.resize(img2,newsize)
         cv2.imshow("output", img2)
         val = cv2.waitKey(10) & 0xFF
