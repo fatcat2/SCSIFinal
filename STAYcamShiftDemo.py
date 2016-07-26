@@ -104,7 +104,7 @@ while True:
 
     if isDragging and selection != None:    # if currently dragging and a good region has been selected
         x0, y0, x1, y1 = selection
-        track_window = (x0, y0, x1-x0, y1-y0)
+        track_window = (x0, y0, x1-x0, y1-y0) #(origin x, origin y, width, height)
         hsv_roi = hsv[y0:y1, x0:x1]             # access the currently selected region and make a histogram of its hue 
         mask_roi = mask[y0:y1, x0:x1]
         hist = cv2.calcHist([hsv_roi], [0], mask_roi, [64], [0, 255]) #takes in the ROI of the HSV image, the blue channel, the ROI mask, range of colors, and the range
