@@ -20,15 +20,16 @@ class TrackedObject:
         self.tracking_window = box
         self.x, self.y, self.w, self.h = box
         self.centerpoint = center
+
         self.setImage(image)
         self.initHSV()
-        self.term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 )  # criteria for termination
+        self.term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
         # TODO: Set up get hist code to prevent colorshifting over time
 
     def initHSV(self):
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
         self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
-        self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [64], [0, 255]))
+        self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [64], [0, 180]))
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist = self.hist.reshape(-1)
 
@@ -76,7 +77,7 @@ class TrackedObject:
     def update(self, image):
         nImg=image
         self.setImage(cv2.blur(nImg, (5,5)))
-        self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 188], 1)
+        self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
         self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, self.term_crit)
         self.updateCenter()
