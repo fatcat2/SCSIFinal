@@ -1,28 +1,31 @@
 # MAIN FILE
 import MultiFinder as mf
 import TrackedObject as to
+import skeleton as skele
 import numpy as np
 import cv2
 if __name__ == "__main__":
     colorList = [((30, 120, 60), (80, 255, 255)), ((100, 120, 60), (140, 255, 255)), ]#
     averageColors=mf.getAverageColors(colorList)
     trackingItems = {}
+    skeleton = skele.Skeleton()
     for i in colorList:
         trackingItems[i] = []
     vidCap = cv2.VideoCapture(1)
-    #take in initial image to determine objects to track
     ret, imgInit = vidCap.read()
     imgInit = cv2.cvtColor(imgInit, cv2.COLOR_BGR2HSV)
-    ##cv2.imshow("Test", imgInit)
-    ##cv2.waitKey(100)
     contours = mf.evaluateForContours(imgInit, colorList)
+    last = None
     if contours is not None and len(contours) > 0:
         centers = mf.getCentersAndBoxes(contours)
         for c in range(len(centers)):
             for j in centers[c]:
-                #print j[1]
                 x = to.TrackedObject(mf.intTuple(j[1][0]+j[1][1]), j[0], imgInit)
                 trackingItems[colorList[c]].append(x)
+                if last is not None:
+                    skeleton.addLink(x, last)
+                last = x
+
     while True:
         img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)
         origImg=np.copy(img1)
@@ -36,6 +39,7 @@ if __name__ == "__main__":
                 cv2.imshow("debug "+str(i)+str(j), (j.prob&j.maskImage)[::2,::2])
                 cv2.moveWindow("debug "+str(i)+str(j), j.prob.shape[1]/2*trackingItems.keys().index(i), 0)
         img1=cv2.cvtColor(img1, cv2.COLOR_HSV2BGR)
+        skeleton.renderAllLinks(img1)
         cv2.imshow("output", img1[::2, ::2])
         val = cv2.waitKey(10) & 0xFF
         if val == 255:   # No input   (Nothing)
