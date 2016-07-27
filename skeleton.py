@@ -9,8 +9,8 @@ class Skeleton:
         self.linkageList = initLinks
         pass
 
-    def addLink(self, to):
-        self.linkageList.append(to)
+    def addLink(self, start, end):
+        self.linkageList.append((start, end))
 
     def getLink(self, x):
         return self.linkageList[x]
