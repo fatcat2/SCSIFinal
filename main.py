@@ -25,6 +25,25 @@ if __name__ == "__main__":
                 if last is not None:
                     skeleton.addLink(x, last)
                 last = x
+    arm=[None, None, None]
+    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+        if arm[0] is None or i.getCenterPoint()[1]<arm[0].getCenterPoint():
+            arm[0]=i
+    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+        if i not in arm and \
+                (arm[1] is None or
+                 mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
+                         mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
+            arm[1]=i
+    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+        if i not in arm and \
+                (arm[1] is None or
+                 mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
+                         mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
+            arm[2] = i
+    print arm
+    #skeleton.addLink(arm[0], arm[1])
+    #skeleton.addLink(arm[1], arm[2])
 
     while True:
         img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)

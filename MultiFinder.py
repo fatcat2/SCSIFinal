@@ -36,6 +36,10 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
         out.append(contours)
     return out
 
+def distance(a, b):
+    a, b = a[0]-b[0], a[1]-b[1]
+    return a*a+b*b
+
 def getCentersAndBoxes(contours):
     """Accepts a list of lists of contours, each sublist belonging to a specific color.
     It then determines the center of each contour by constructing the minimum area rectangle,
