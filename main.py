@@ -5,7 +5,7 @@ import skeleton as skele
 import numpy as np
 import cv2
 if __name__ == "__main__":
-    colorList = [((30, 120, 60), (80, 255, 255)), ((100, 120, 60), (140, 255, 255)), ]#
+    colorList = [((30, 120, 60), (80, 255, 255)), ((74, 80, 80), (114, 230, 230))]#
     averageColors=mf.getAverageColors(colorList)
     trackingItems = {}
     skeleton = skele.Skeleton()
@@ -23,19 +23,20 @@ if __name__ == "__main__":
                 x = to.TrackedObject(mf.intTuple(j[1][0]+j[1][1]), j[0], imgInit)
                 trackingItems[colorList[c]].append(x)
                 if last is not None:
-                    skeleton.addLink(x, last)
+                    pass # skeleton.addLink(x, last)
                 last = x
     arm=[None, None, None]
-    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+    print trackingItems
+    for i in trackingItems[colorList[1]]:
         if arm[0] is None or i.getCenterPoint()[1]<arm[0].getCenterPoint():
             arm[0]=i
-    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+    for i in trackingItems[colorList[1]]:
         if i not in arm and \
                 (arm[1] is None or
                  mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
                          mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
             arm[1]=i
-    for i in trackingItems[((100, 120, 60), (140, 255, 255))]:
+    for i in trackingItems[colorList[1]]:
         if i not in arm and \
                 (arm[1] is None or
                  mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <

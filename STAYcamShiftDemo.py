@@ -65,16 +65,16 @@ def onmouse(event, x, y, flags, param):
 
 
 
-# def show_hist(hist):
-#     """Takes in the histogram, and displays it in the hist window."""
-#     bin_count = hist.shape[0]
-#     bin_w = 24
-#     img = np.zeros((256, bin_count*bin_w, 3), np.uint8)
-#     for i in xrange(bin_count):
-#         h = int(hist[i])
-#         cv2.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
-#     img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
-#     cv2.imshow('hist', img)
+ def show_hist(hist):
+     """Takes in the histogram, and displays it in the hist window."""
+     bin_count = hist.shape[0]
+     bin_w = 24
+     img = np.zeros((256, bin_count*bin_w, 3), np.uint8)
+     for i in xrange(bin_count):
+         h = int(hist[i])
+         cv2.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
+     img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
+     cv2.imshow('hist', img)
 
 def getNextFrame(vidObj):
     """Takes in the VideoCapture object and reads the next frame, returning one that is half the size 
