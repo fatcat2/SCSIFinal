@@ -35,6 +35,17 @@ def evaluateForContours(image, HSVRanges, morphing=prepImage):
         im2, contours, hier = cv2.findContours(grayImg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         out.append(contours)
     return out
+def trimCenters(boxList, minDistance):
+    minDistance*=minDistance
+    bList=boxList
+    for k in bList:
+        i = 0
+        while i < len(k):
+            for j in k[i+1:]:
+                if distance(k[i][0], j[0])<minDistance:
+                    k.pop(i)
+            i += 1
+    return bList
 
 def distance(a, b):
     a, b = a[0]-b[0], a[1]-b[1]

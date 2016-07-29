@@ -17,10 +17,10 @@ if __name__ == "__main__":
     contours = mf.evaluateForContours(imgInit, colorList)
     last = None
     if contours is not None and len(contours) > 0:
-        centers = mf.getCentersAndBoxes(contours)
+        centers = mf.trimCenters(mf.getCentersAndBoxes(contours), 50)
         for c in range(len(centers)):
             for j in centers[c]:
-                x = to.TrackedObject(mf.intTuple(j[1][0]+j[1][1]), j[0], imgInit)
+                x = to.TrackedObject(mf.intTuple(j[1][0]+j[1][1]), j[0], imgInit, colorList[c])
                 trackingItems[colorList[c]].append(x)
                 if last is not None:
                     pass # skeleton.addLink(x, last)
@@ -43,8 +43,10 @@ if __name__ == "__main__":
                          mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
             arm[2] = i
     print arm
-    #skeleton.addLink(arm[0], arm[1])
-    #skeleton.addLink(arm[1], arm[2])
+    if None not in [arm[0], arm[1]]:
+        skeleton.addLink(arm[0], arm[1])
+    if None not in [arm[1], arm[2]]:
+        skeleton.addLink(arm[1], arm[2])
 
     while True:
         img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)
@@ -57,7 +59,7 @@ if __name__ == "__main__":
                 pos=((tw[0], tw[1]), (tw[0]+tw[2], tw[1]+tw[3]))
                 cv2.rectangle(img1, pos[0], pos[1], tuple(averageColors[colorList.index(i)]), 3)
                 cv2.imshow("debug "+str(i)+str(j), (j.prob&j.maskImage)[::2,::2])
-                cv2.moveWindow("debug "+str(i)+str(j), j.prob.shape[1]/2*trackingItems.keys().index(i), 0)
+                cv2.moveWindow("debug "+str(i)+str(j), 10*trackingItems.keys().index(i), 0)
         img1=cv2.cvtColor(img1, cv2.COLOR_HSV2BGR)
         skeleton.renderAllLinks(img1)
         cv2.imshow("output", img1[::2, ::2])

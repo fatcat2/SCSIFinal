@@ -2,7 +2,16 @@ import cv2
 import numpy as np
 import MultiFinder as mf
 
-
+def show_hist(hist,thin):
+     """Takes in the histogram, and displays it in the hist window."""
+     bin_count = hist.shape[0]
+     bin_w = 24
+     img = np.zeros((256, bin_count*bin_w, 3), np.uint8)
+     for i in xrange(bin_count):
+         h = int(hist[i])
+         cv2.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
+     img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
+     cv2.imshow(thin, img)
 
 class TrackedObject:
     hist = None
@@ -16,31 +25,35 @@ class TrackedObject:
     term_crit = None
     x, y, w, h = 0, 0, 0, 0
 
-    def __init__(self, box, center, image):
+    def __init__(self, box, center, image, colRng):
         self.tracking_window = box
         self.x, self.y, self.w, self.h = box
         self.centerpoint = center
-
         self.setImage(image)
-        self.initHSV()
+        self.initHSV(colRng)
         self.term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
         # TODO: Set up get hist code to prevent colorshifting over time
 
-    def initHSV(self):
+    def initHSV(self, colRng):
+        #self.hsvImage
+        colImg=cv2.inRange(self.hsvImage, colRng[0], colRng[1])
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
-        self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
+        self.hsvROI = (self.hsvImage & cv2.merge((colImg, colImg, colImg)))[self.y:self.y + self.h, self.x:self.x + self.w]#&cv2.merge((self.maskROI, self.maskROI, self.maskROI))
+        #cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
         self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [64], [0, 180]))
+        cv2.waitKey(0)
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist = self.hist.reshape(-1)
 
         # Getters and Setters
 
     def setHist(self, hist):
-        self.hist = hist
+        show_hist(hist[1:], str(self))
+        self.hist = hist[1: ]
 
     def setImage(self, hsvImage):
         self.hsvImage = hsvImage
-        self.maskImage = cv2.inRange(hsvImage, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+        self.maskImage = cv2.inRange(hsvImage, np.array((0., 60., 32.*2)), np.array((180., 255., 255.)))
 
     def setTrackingWindow(self, trackwindow):
         self.tracking_window = trackwindow
