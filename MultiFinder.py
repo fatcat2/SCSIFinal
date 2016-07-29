@@ -42,7 +42,7 @@ def trimCenters(boxList, minDistance):
         i = 0
         while i < len(k):
             for j in k[i+1:]:
-                if distance(k[i][0], j[0])<minDistance:
+                if distance(k[i][0], j[0]) < minDistance:
                     k.pop(i)
             i += 1
     return bList
