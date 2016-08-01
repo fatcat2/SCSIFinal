@@ -24,18 +24,24 @@ class TrackedObject:
     prob = None
     term_crit = None
     x, y, w, h = 0, 0, 0, 0
+    isTracking = False
 
-    def __init__(self, box, center, image, colRng):
-        self.tracking_window = box
-        self.x, self.y, self.w, self.h = box
-        self.centerpoint = center
-        self.colRng=colRng
-        self.setImage(image)
-        self.initHSV()
-        self.term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
+    # def __init__(self, box, center, image, colRng):
+    #     self.tracking_window = box
+    #     self.x, self.y, self.w, self.h = box
+    #     self.centerpoint = center
+    #     self.colRng=colRng
+    #     self.setImage(image)
+    #     self.initHSV()
+    #     self.term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
+    def __init__(self, coords, image, mask):
+        x0, y0, x1, y1 =  coords
+        self.track_window = (x0, y0, x1-x0, y1-y0)
+        setImage(image)
+        setMask(mask)
+        initHSV()
 
-    def initHSV(self,):
-        #self.hsvImage
+    def initHSV(self):
         colImg=cv2.inRange(self.hsvImage, self.colRng[0], self.colRng[1])
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
         self.hsvROI = (self.hsvImage & cv2.merge((colImg, colImg, colImg)))[self.y:self.y + self.h, self.x:self.x + self.w]#&cv2.merge((self.maskROI, self.maskROI, self.maskROI))
@@ -61,6 +67,9 @@ class TrackedObject:
     def setCenterPoint(self, cp):
         self.centerpoint = cp
 
+    def isTracking(self):
+        return self.isTracking
+
     def getHist(self):
         return self.hist
 
@@ -73,11 +82,20 @@ class TrackedObject:
     def getProbability(self):
         return self.prob
 
+    def setMask(self, m):
+        self.maskImage = m  
+
     def getTrackBox(self):
         return self.track_box
 
     def updateObk(self, coords):
         self.centerpoint = coords
+
+    def getImage(self):
+        return self.hsvImage
+
+    def getMask(self):
+        return self.mask
 
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
