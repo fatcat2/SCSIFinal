@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import MultiFinder as mf
-
+DEBUG = True
 def show_hist(hist,thin):
      """Takes in the histogram, and displays it in the hist window."""
      bin_count = hist.shape[0]
@@ -39,17 +39,20 @@ class TrackedObject:
         colImg=cv2.inRange(self.hsvImage, self.colRng[0], self.colRng[1])
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
         self.hsvROI = (self.hsvImage & cv2.merge((colImg, colImg, colImg)))[self.y:self.y + self.h, self.x:self.x + self.w]#&cv2.merge((self.maskROI, self.maskROI, self.maskROI))
-        cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
+        if DEBUG:
+            cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
         self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [32], [0, 180]))#[self.colRng[0][0]:self.colRng[1][0]])
-        cv2.waitKey(0)
+        if DEBUG:
+            cv2.waitKey(0)
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist = self.hist.reshape(-1)
 
         # Getters and Setters
 
     def setHist(self, hist):
-        show_hist(hist, str(self))
-        self.hist = hist[1: ]
+        if DEBUG:
+            show_hist(hist, str(self))
+        self.hist = hist[1:] # Remove red from black areas
 
     def setImage(self, hsvImage):
         self.hsvImage = hsvImage
@@ -76,16 +79,12 @@ class TrackedObject:
     def getTrackBox(self):
         return self.track_box
 
-    def updateObk(self, coords):
-        self.centerpoint = coords
-
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
                   self.tracking_window[1]+self.tracking_window[3]/2)
         #center = self.track_box[0]
         center=mf.intTuple(center)
         self.setCenterPoint(center)
-
 
     def update(self, image):
         nImg=image
