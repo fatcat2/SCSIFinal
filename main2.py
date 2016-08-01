@@ -5,35 +5,6 @@ import skeleton as skele
 import numpy as np
 import cv2
 
-
-def onmouse(event, x, y, flags, param):
-    global drag_start
-    global isTracking
-    global selection
-    global frame
-    h, w = frame.shape[2]
-    if event == cv2.EVENT_LBUTTONDOWN:   # If left mouse button started to be pressed 
-        drag_start = (x, y)   # set start of drag region to be mouse's (x, y)
-        isTracking = False
-        isDragging = True
-    elif event == cv2.EVENT_LBUTTONUP:  # left mouse button up indicates end of dragging
-        isDragging = False
-        drag_start = None
-        if selection != None:
-            isTracking = True
-            print selection
-    elif isDragging and event == cv2.EVENT_MOUSEMOVE:    # if currently dragging and mouse is moving
-        xo, yo = drag_start              # first compute upperleft anbd lower right
-        x0 = max(0, min(xo, x))
-        x1 = min(w, max(xo, x))
-        y0 = max(0, min(yo, y))
-        y1 = min(h, max(yo, y))   # crops to picture size: no out od bounds
-        selection = None
-        if x1-x0 > 0 and y1-y0 > 0:
-            selection = (x0, y0, x1, y1)  # set current drag rectangle
-
-
-            
 if __name__ == "__main__":
     colorList = [((30, 120, 60), (80, 255, 255)), ((74, 80, 80), (114, 230, 230))]#
     averageColors=mf.getAverageColors(colorList)
