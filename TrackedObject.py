@@ -16,7 +16,7 @@ def show_hist(hist, thin):
 
 class TrackedObject:
 
-    # Define variables ahead of time for clarity
+    # ----- Variables -----
     hist = None
     tracking_window = None
     track_box = None
@@ -28,6 +28,8 @@ class TrackedObject:
     prob = None
     term_crit = None
     x, y, w, h = 0, 0, 0, 0
+
+    # ----- Setup functions -----
 
     def __init__(self, box, center, image, color_range):
         self.tracking_window = box
@@ -52,7 +54,7 @@ class TrackedObject:
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist = self.hist.reshape(-1)
 
-        # Getters and Setters
+    # ----- Setters -----
 
     def setHist(self, hist):
         if DEBUG:
@@ -70,10 +72,12 @@ class TrackedObject:
     def setCenterPoint(self, cp):
         self.centerPoint = cp
 
+    # ----- Getters -----
+
     def getHist(self):
         return self.hist
 
-    def getTrackWindow(self):
+    def getTrackingWindow(self):
         return self.tracking_window
 
     def getCenterPoint(self):
@@ -84,6 +88,8 @@ class TrackedObject:
 
     def getTrackBox(self):
         return self.track_box
+
+    # ----- Update Functions -----
 
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
