@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import MultiFinder as mf
+import tracking_functions as tf
 DEBUG = True
 def show_hist(hist, thin):
     """Takes in the histogram, and displays it in the hist window."""
@@ -88,7 +88,7 @@ class TrackedObject:
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
                   self.tracking_window[1]+self.tracking_window[3]/2)
-        center = mf.intTuple(center)
+        center = tf.intTuple(center)
         self.setCenterPoint(center)
 
     def update(self, image):

@@ -1,31 +1,31 @@
 # MAIN FILE
-import MultiFinder as mf
+import tracking_functions as tf
 import TrackedObject as to
-import skeleton as skele
+import skeleton
 import numpy as np
 import cv2
 if __name__ == "__main__":
     colorList = [((30, 120, 60), (80, 255, 255)), ((74, 80, 80), (114, 230, 230))]#
-    averageColors=mf.getAverageColors(colorList)
+    averageColors=tf.getAverageColors(colorList)
     trackingItems = {}
-    skeleton = skele.Skeleton()
+    animationSkeleton = skeleton.Skeleton()
     for i in colorList:
         trackingItems[i] = []
     vidCap = cv2.VideoCapture(0)
     ret, imgInit = vidCap.read()
     imgInit = cv2.cvtColor(imgInit, cv2.COLOR_BGR2HSV)
-    contours = mf.evaluateForContours(imgInit, colorList)
+    contours = tf.evaluateForContours(imgInit, colorList)
     last = None
     if contours is not None and len(contours) > 0:
-        centers = mf.trimCenters(mf.getCentersAndBoxes(contours), 50)
+        centers = tf.trimCenters(tf.getCentersAndBoxes(contours), 50)
         for c in range(len(centers)):
             for j in centers[c]:
-                x = to.TrackedObject(mf.intTuple(j[1][0]+j[1][1]), j[0], imgInit, colorList[c])
+                x = to.TrackedObject(tf.intTuple(j[1][0]+j[1][1]), j[0], imgInit, colorList[c])
                 trackingItems[colorList[c]].append(x)
                 if last is not None:
                     pass # skeleton.addLink(x, last)
                 last = x
-    arm=[None, None, None]
+    arm = [None, None, None]
     print trackingItems
     for i in trackingItems[colorList[1]]:
         if arm[0] is None or i.getCenterPoint()[1]<arm[0].getCenterPoint():
@@ -33,14 +33,14 @@ if __name__ == "__main__":
     for i in trackingItems[colorList[1]]:
         if i not in arm and \
                 (arm[1] is None or
-                 mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
-                         mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
+                 tf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
+                         tf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
             arm[1]=i
     for i in trackingItems[colorList[1]]:
         if i not in arm and \
                 (arm[1] is None or
-                 mf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
-                         mf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
+                 tf.distance(i.getCenterPoint(), arm[0].getCenterPoint()) <
+                         tf.distance(arm[1].getCenterPoint(), arm[0].getCenterPoint())):
             arm[2] = i
     print arm
     if None not in [arm[0], arm[1]]:
