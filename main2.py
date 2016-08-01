@@ -82,39 +82,27 @@ while True:
     mask = cv2.inRange(hsv, np.array((0., 60., 32.)), np.array((180., 255., 255.)))   # eliminate low and high saturation and value values
 
     if isDragging and selection != None:    # if currently dragging and a good region has been selected
-        x = to.TrackedObject(coords, hsv, mask)
+        x = to.TrackedObject(selection, hsv, mask)
         trackedObjectList.append(x)
-        x0, y0, x1, y1 = selection
-        track_window = (x0, y0, x1-x0, y1-y0) #(origin x, origin y, width, height)
-        hsv_roi = hsv[y0:y1, x0:x1]             # access the currently selected region and make a histogram of its hue 
-        mask_roi = mask[y0:y1, x0:x1]
-        hist = cv2.calcHist([hsv_roi], [0], mask_roi, [64], [0, 255]) #takes in the ROI of the HSV image, the blue channel, the ROI mask, range of colors, and the range
-        cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX) #reduces the extremes
-        hist = hist.reshape(-1)
-        show_hist(hist)
-
-
-
+        show_hist(x.getHist())
         vis_roi = vis[y0:y1, x0:x1]
         cv2.bitwise_not(vis_roi, vis_roi)
         if showHistMask:
             vis[mask == 0] = 0
-
-
-
         for obj in trackedObjectList:  # If tracking...
-            # selection = None #clear the selection
-            prob = cv2.calcBackProject([hsv], [0], hist, [0, 180], 1) #calculates the probability of similarity
-            prob &= mask #adds the probability of hit rate to the mask
+            prob = cv2.calcBackProject([obj.getImage()], [0], obj.getHist(), [0, 180], 1) #calculates the probability of similarity
+            prob &= obj.getMask() #adds the probability of hit rate to the mask
             #count gets rid after a certain count if it can't settle
             term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 ) #criteria for termination
-            track_box, track_window = cv2.CamShift(prob, track_window, term_crit) #returns a box for the ellipse to use and box parameters to be used as a search box
-
+            x, y = cv2.CamShift(prob, y, term_crit) #returns a box for the ellipse to use and box parameters to be used as a search box
+            obj.setTrackBox(x)
+            obj.setTrackingWindow(y)
             if showBackProj:
                 vis[:] = prob[...,np.newaxis]
             try:
-                cv2.ellipse(vis, track_box, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
+                cv2.ellipse(vis, obj.getTrackBox, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
             except:
+                pass
                 # print track_box
     cv2.imshow('camshift', vis)
 
