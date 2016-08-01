@@ -6,12 +6,18 @@ import numpy as np
 import cv2
 
 
+selection = None
+drag_start = None
+isDragging = False
+isTracking = False
+showBackProj = False
+showHistMask = False
+frame = None
+hist = None
+
+
 def onmouse(event, x, y, flags, param):
-    global drag_start
-    global isTracking
-    global selection
-    global frame
-    h, w = frame.shape[2]
+    h, w = frame.shape[:2]
     if event == cv2.EVENT_LBUTTONDOWN:   # If left mouse button started to be pressed 
         drag_start = (x, y)   # set start of drag region to be mouse's (x, y)
         isTracking = False
@@ -89,8 +95,8 @@ if __name__ == "__main__":
     #Capture Loop
     while True:
         frame = getNextFrame(vidCap)
-        img1 = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)
-        origImg=np.copy(img1)
+        hsv = cv2.cvtColor(vidCap.read()[1], cv2.COLOR_BGR2HSV)
+        origImg=np.copy(img1)k
         for i in trackingItems.keys():
             for j in trackingItems[i]:
                 j.update(origImg)

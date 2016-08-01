@@ -64,8 +64,7 @@ def onmouse(event, x, y, flags, param):
             selection = (x0, y0, x1, y1)  # set current drag rectangle
 
 
-
- def show_hist(hist):
+def show_hist(hist):
      """Takes in the histogram, and displays it in the hist window."""
      bin_count = hist.shape[0]
      bin_w = 24
