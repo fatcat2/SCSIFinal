@@ -15,8 +15,6 @@ def show_hist(hist, thin):
 
 
 class TrackedObject:
-
-    # Define variables ahead of time for clarity
     hist = None
     tracking_window = None
     track_box = None
@@ -29,23 +27,21 @@ class TrackedObject:
     term_crit = None
     x, y, w, h = 0, 0, 0, 0
 
-    def __init__(self, box, center, image, color_range):
+    def __init__(self, box, center, image, colrange):
         self.tracking_window = box
         self.x, self.y, self.w, self.h = box
         self.centerPoint = center
-        self.colRng = color_range  # Range of colors used to generate TrackedObject
+        self.colRng = colrange
         self.setImage(image)
         self.initHSV()
         self.term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
 
-    def initHSV(self):
-        col_img = cv2.inRange(self.hsvImage, self.colRng[0], self.colRng[1])
+    def initHSV(self,):
+        colImg=cv2.inRange(self.hsvImage, self.colRng[0], self.colRng[1])
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
-        self.hsvROI = (self.hsvImage &
-                       cv2.merge((col_img, col_img, col_img))
-                       )[self.y:self.y + self.h, self.x:self.x + self.w]
+        self.hsvROI = (self.hsvImage & cv2.merge((colImg, colImg, colImg)))[self.y:self.y + self.h, self.x:self.x + self.w]
         if DEBUG:
-            cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((col_img, col_img, col_img)), cv2.COLOR_HSV2BGR))
+            cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
         self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [32], [0, 180]))
         if DEBUG:
             cv2.waitKey(0)
@@ -60,12 +56,12 @@ class TrackedObject:
         self.hist = [0]+hist[1:]  # Remove red derived from black areas
         # TODO: improve this removal- right now, it can block true red
 
-    def setImage(self, hsv_image):
-        self.hsvImage = hsv_image
-        self.maskImage = cv2.inRange(hsv_image, np.array((0., 60., 32.*2)), np.array((180., 255., 255.)))
+    def setImage(self, hsvImage):
+        self.hsvImage = hsvImage
+        self.maskImage = cv2.inRange(hsvImage, np.array((0., 60., 32.*2)), np.array((180., 255., 255.)))
 
-    def setTrackingWindow(self, tracking_window):
-        self.tracking_window = tracking_window
+    def setTrackingWindow(self, trackwindow):
+        self.tracking_window = trackwindow
 
     def setCenterPoint(self, cp):
         self.centerPoint = cp
@@ -88,12 +84,13 @@ class TrackedObject:
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
                   self.tracking_window[1]+self.tracking_window[3]/2)
-        center = mf.intTuple(center)
+        #center = self.track_box[0]
+        center=mf.intTuple(center)
         self.setCenterPoint(center)
 
     def update(self, image):
-        new_img = image  # Prevent modification of image
-        self.setImage(cv2.blur(new_img, (5, 5)))
+        nImg=image
+        self.setImage(cv2.blur(nImg, (5,5)))
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
         self.track_box, self.tracking_window = cv2.CamShift(self.prob, self.tracking_window, self.term_crit)
