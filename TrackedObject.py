@@ -100,12 +100,13 @@ class TrackedObject:
 
     def getMask(self):
         return self.maskImage
+    
     def setHist(self, hist):
         self.hist = hist
+
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
                   self.tracking_window[1]+self.tracking_window[3]/2)
-        #center = self.track_box[0]
         center=mf.intTuple(center)
         self.setCenterPoint(center)
 
@@ -118,5 +119,5 @@ class TrackedObject:
         print self.hist
         print self.track_window
         cv2.waitKey(0)
-        self.track_box, self.track_window = cv2.CamShift(tuple(self.prob), tuple(self.track_window), self.term_crit)
+        self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 
