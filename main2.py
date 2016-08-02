@@ -100,6 +100,7 @@ for i in range(1000):
         x0, y0, x1, y1 = selection
         x = to.TrackedObject((x0, y0, x1, y1), hsv, mask, hist)
         trackedObjectList.append(x)
+        selection = None
         show_hist(hist)
 
     for obj in trackedObjectList:  # If tracking...
