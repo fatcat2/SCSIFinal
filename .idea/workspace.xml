@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bf5f1d4d-b8ba-438a-9ece-eaaac18a2bed" name="Default" comment="" />
+    <list default="true" id="bf5f1d4d-b8ba-438a-9ece-eaaac18a2bed" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main2.py" afterPath="$PROJECT_DIR$/main2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skeleton.py" afterPath="$PROJECT_DIR$/skeleton.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="SCSIFinal.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -17,7 +21,7 @@
     <SUITE FILE_PATH="coverage/SCSIFinal$TrackedObject.coverage" NAME="TrackedObject Coverage Results" MODIFIED="1469821050328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SCSIFinal$main.coverage" NAME="main Coverage Results" MODIFIED="1470163517619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SCSIFinal$MultiFinder.coverage" NAME="MultiFinder Coverage Results" MODIFIED="1469644795883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SCSIFinal$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1470166450930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SCSIFinal$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1470169613651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -51,11 +55,10 @@
       <file leaf-file-name="main2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5380201" vertical-offset="165" max-vertical-offset="1395">
-              <caret line="64" column="56" selection-start-line="64" selection-start-column="56" selection-end-line="64" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.12912482" vertical-offset="0" max-vertical-offset="2130">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding>
-                <element signature="e#18#44#0" expanded="true" />
-                <element signature="e#292#1349#0" expanded="false" />
+                <element signature="e#18#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -64,9 +67,15 @@
       <file leaf-file-name="skeleton.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/skeleton.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-              <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
+              <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
+              <folding>
+                <element signature="e#129#170#0" expanded="false" />
+                <element signature="e#215#252#0" expanded="false" />
+                <element signature="e#288#314#0" expanded="false" />
+                <element signature="e#364#453#0" expanded="false" />
+                <element signature="e#500#632#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,11 +115,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/skeleton.py" />
         <option value="$PROJECT_DIR$/STAYcamShiftDemo.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/MultiFinder.py" />
         <option value="$PROJECT_DIR$/TrackedObject.py" />
+        <option value="$PROJECT_DIR$/skeleton.py" />
         <option value="$PROJECT_DIR$/main2.py" />
       </list>
     </option>
@@ -567,7 +576,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -592,8 +601,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1200" max-vertical-offset="1950">
           <caret line="85" column="27" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
           <folding>
-            <element signature="e#18#44#0" expanded="true" />
-            <element signature="e#292#1349#0" expanded="false" />
+            <element signature="e#18#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -602,7 +610,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="420">
           <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
-          <folding />
+          <folding>
+            <element signature="e#129#170#0" expanded="false" />
+            <element signature="e#215#252#0" expanded="false" />
+            <element signature="e#288#314#0" expanded="false" />
+            <element signature="e#364#453#0" expanded="false" />
+            <element signature="e#500#632#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -644,8 +658,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1935">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#18#44#0" expanded="true" />
-            <element signature="e#292#1349#0" expanded="false" />
+            <element signature="e#18#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -654,7 +667,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="420">
           <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
-          <folding />
+          <folding>
+            <element signature="e#129#170#0" expanded="false" />
+            <element signature="e#215#252#0" expanded="false" />
+            <element signature="e#288#314#0" expanded="false" />
+            <element signature="e#364#453#0" expanded="false" />
+            <element signature="e#500#632#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -713,7 +732,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#129#170#0" expanded="false" />
+            <element signature="e#215#252#0" expanded="false" />
+            <element signature="e#288#314#0" expanded="false" />
+            <element signature="e#364#453#0" expanded="false" />
+            <element signature="e#500#632#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1095,14 +1120,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/skeleton.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TrackedObject.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1127" max-vertical-offset="1695">
@@ -1113,13 +1130,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/skeleton.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
+          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
+          <folding>
+            <element signature="e#129#170#0" expanded="false" />
+            <element signature="e#215#252#0" expanded="false" />
+            <element signature="e#288#314#0" expanded="false" />
+            <element signature="e#364#453#0" expanded="false" />
+            <element signature="e#500#632#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5380201" vertical-offset="165" max-vertical-offset="1395">
-          <caret line="64" column="56" selection-start-line="64" selection-start-column="56" selection-end-line="64" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.12912482" vertical-offset="0" max-vertical-offset="2130">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <element signature="e#18#44#0" expanded="true" />
-            <element signature="e#292#1349#0" expanded="false" />
+            <element signature="e#18#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
