@@ -108,16 +108,13 @@ class TrackedObject:
         self.setImage(cv2.blur(nImg, (5,5)))
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
-<<<<<<< HEAD
         #print self.hist
         #print self.track_window
         # cv2.waitKey(0)
         #print type(self.prob), "|", type(self.track_window), "|", type(self.term_crit)
         #print self.prob, "|", self.track_window, "|", self.term_crit
-=======
         print self.hist
         print self.track_window
         print tuple(self.track_window), prob, 
->>>>>>> origin/manual_input_dev
         self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 
