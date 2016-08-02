@@ -59,7 +59,8 @@ class TrackedObject:
     def setHist(self, hist):
         if DEBUG:
             show_hist(hist, str(self))
-        self.hist = [0]+hist[1:]  # Remove red derived from black areas
+        self.hist = hist
+        self.hist[0] = 0  # Remove red derived from black areas
         # TODO: improve this removal- right now, it can block true red
 
     def setImage(self, hsv_image):
