@@ -1,10 +1,8 @@
 # MAIN FILE Hello
-import MultiFinder as mf
 import TrackedObject as to
-import skeleton as skele
+import skeleton as sk
 import numpy as np
 import cv2
-import TrackedObject as to
 
 selection = None
 drag_start = None
@@ -13,6 +11,8 @@ isTracking = False
 frame = None
 hist = None
 trackedObjectList = []
+mrskeletal = sk.Skeleton()
+
 
 def onmouse(event, x, y, flags, param):
     global drag_start
@@ -45,29 +45,30 @@ def onmouse(event, x, y, flags, param):
             selection = (x0, y0, x1, y1)  # set current drag rectangle
 
 
-def show_hist(hist):
-     """Takes in the histogram, and displays it in the hist window."""
-     bin_count = hist.shape[0]
-     bin_w = 24
-     img = np.zeros((256, bin_count*bin_w, 3), np.uint8)
-     for i in xrange(bin_count):
-         h = int(hist[i])
-         cv2.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
-     img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
-     cv2.imshow('hist', img)
+def show_hist(histogram):
+    """Takes in the histogram, and displays it in the hist window."""
+    bin_count = histogram.shape[0]
+    bin_w = 24
+    img = np.zeros((256, bin_count*bin_w, 3), np.uint8)
+    for i in xrange(bin_count):
+        h = int(hist[i])
+        cv2.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
+    img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
+    cv2.imshow('hist', img)
+
 
 def getNextFrame(vidObj):
     """Takes in the VideoCapture object and reads the next frame, returning one that is half the size 
     (Comment out that line if you want fullsize)."""
-    ret, frame = vidObj.read()
+    ret, outframe = vidObj.read()
     # print type(vidObj), type(frame)
-    frame = cv2.resize(frame, (0, 0), fx = 0.5, fy = 0.5)
-    return frame
+    outframe = cv2.resize(outframe, (0, 0), fx=0.5, fy=0.5)
+    return outframe
 
 #create the camera boject
 cam = cv2.VideoCapture(1)
-ret, frame = cam.read() #return boolean retval and the image obtained by the camera
-frame = cv2.resize(frame, dsize = (0, 0), fx = 0.5, fy = 0.5) #resizes the image in half to be more manageable
+ret, frame = cam.read()  # return boolean retval and the image obtained by the camera
+frame = cv2.resize(frame, dsize = (0, 0), fx = 0.5, fy = 0.5)  # resizes the image in half to be more manageable
 
 #moving and naming windows to reduce overlap
 cv2.namedWindow('camshift')
@@ -102,11 +103,10 @@ for i in range(1000):
     for obj in trackedObjectList:  # If tracking...
         obj.update(hsv)
         try:
+            mrskeletal.renderAllLinks(vis)
             cv2.circle(vis, obj.getCenterPoint(), 2, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
         except Exception as e:
             print e
-            pass
-            # print track_box
     cv2.imshow('camshift', vis)
 
     ch = 0xFF & cv2.waitKey(5)
