@@ -15,14 +15,14 @@ def show_hist(hist,thin):
 
 class TrackedObject:
     hist = None
-    tracking_window = None
+    track_window = None
     track_box = None
     centerpoint = (0, 0)
     hsvImage = None
     maskImage = None
     hsvROI = None
     prob = None
-    term_crit = None
+    term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
     x, y, w, h = 0, 0, 0, 0
     isTracking = False
 
@@ -40,7 +40,7 @@ class TrackedObject:
         self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
         # cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
         self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [32], [0, 180]))#[self.colRng[0][0]:self.colRng[1][0]])
-        print self.hist
+        #print self.hist
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist.reshape(-1)
 
@@ -56,7 +56,7 @@ class TrackedObject:
         self.maskImage = cv2.inRange(hsvImage, np.array((0., 60., 32.*2)), np.array((180., 255., 255.)))
 
     def setTrackingWindow(self, trackwindow):
-        self.tracking_window = trackwindow
+        self.track_window = trackwindow
 
     def setCenterPoint(self, cp):
         self.centerpoint = cp
@@ -69,7 +69,7 @@ class TrackedObject:
         return self.hist
 
     def getTrackWindow(self):
-        return self.tracking_window
+        return self.track_window
 
     def getCenterPoint(self):
         return self.centerpoint
@@ -96,8 +96,8 @@ class TrackedObject:
         self.hist = hist
 
     def updateCenter(self):
-        center = (self.tracking_window[0]+self.tracking_window[2]/2,
-                  self.tracking_window[1]+self.tracking_window[3]/2)
+        center = (self.track_window[0]+self.track_window[2]/2,
+                  self.track_window[1]+self.track_window[3]/2)
         #center = self.track_box[0]
         center=mf.intTuple(center)
         self.setCenterPoint(center)
@@ -108,8 +108,10 @@ class TrackedObject:
         self.setImage(cv2.blur(nImg, (5,5)))
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
-        print self.hist
-        print self.track_window
+        #print self.hist
+        #print self.track_window
         # cv2.waitKey(0)
+        #print type(self.prob), "|", type(self.track_window), "|", type(self.term_crit)
+        #print self.prob, "|", self.track_window, "|", self.term_crit
         self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 

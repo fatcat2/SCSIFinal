@@ -24,19 +24,19 @@ def onmouse(event, x, y, flags, param):
     global frame
     h, w = frame.shape[:2]           
     if event == cv2.EVENT_LBUTTONDOWN:
-        print "MOUSEDOWN"
+        #print "MOUSEDOWN"
         drag_start = (x, y)
         isTracking = False
         isDragging = True
     elif event == cv2.EVENT_LBUTTONUP:  # left mouse button up indicates end of dragging
-        print "MOUSEUP"
+        #print "MOUSEUP"
         isDragging = False
         drag_start = None
         if selection != None:
             isTracking = True
             # print selection
     elif isDragging and event == cv2.EVENT_MOUSEMOVE:    # if currently dragging and mouse is moving
-        print "MOUSEMOVE"
+        #print "MOUSEMOVE"
         xo, yo = drag_start              # first compute upperleft anbd lower right
         x0 = max(0, min(xo, x))
         x1 = min(w, max(xo, x))
@@ -111,8 +111,9 @@ for i in range(1000):
         if showBackProj:
             vis[:] = prob[...,np.newaxis]
         try:
-            cv2.ellipse(vis, obj.getTrackWindow(), (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
-        except:
+            cv2.circle(vis, obj.getTrackWindow()[:2], 2, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
+        except Exception as e:
+            print e
             pass
             # print track_box
     cv2.imshow('camshift', vis)
