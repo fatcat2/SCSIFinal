@@ -10,8 +10,6 @@ selection = None
 drag_start = None
 isDragging = False
 isTracking = False
-showBackProj = False
-showHistMask = False
 frame = None
 hist = None
 trackedObjectList = []
@@ -94,8 +92,6 @@ for i in range(1000):
         cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
         hist = hist.reshape(-1)
         show_hist(hist)
-        if showHistMask:
-            vis[mask == 0] = 0
     if not isDragging and selection != None:
         x0, y0, x1, y1 = selection
         x = to.TrackedObject((x0, y0, x1, y1), hsv, mask, hist)
@@ -105,12 +101,6 @@ for i in range(1000):
 
     for obj in trackedObjectList:  # If tracking...
         obj.update(hsv)
-        prob = cv2.calcBackProject([obj.getImage()], [0], obj.getHist(), [0, 180], 1) #calculates the probability of similarity
-        prob &= obj.getMask() #adds the probability of hit rate to the mask
-        #count gets rid after a certain count if it can't settle
-        term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1 ) #criteria for termination
-        if showBackProj:
-            vis[:] = prob[...,np.newaxis]
         try:
             cv2.circle(vis, obj.getCenterPoint(), 2, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
         except Exception as e:
@@ -122,9 +112,5 @@ for i in range(1000):
     ch = 0xFF & cv2.waitKey(5)
     if ch == 27:
         break
-    elif ch == ord('b'):
-        showBackProj = not showBackProj
-    elif ch == ord('v'):
-        showHistMask = not showHistMask
         
 cv2.destroyAllWindows()
