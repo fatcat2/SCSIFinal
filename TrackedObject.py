@@ -110,6 +110,6 @@ class TrackedObject:
         self.prob &= self.maskImage
         print self.hist
         print self.track_window
-        # cv2.waitKey(0)
+        print tuple(self.track_window), prob, 
         self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 
