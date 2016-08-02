@@ -33,14 +33,11 @@ class TrackedObject:
         self.setImage(image)
         self.setMask(mask)
         self.hist = hist
-        # self.initHSV()
 
     def initHSV(self):
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
         self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
-        # cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
-        self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [32], [0, 180]))#[self.colRng[0][0]:self.colRng[1][0]])
-        #print self.hist
+        self.setHist(cv2.calcHist([self.hsvROI], [0], self.maskROI, [32], [0, 180]))
         cv2.normalize(self.hist, self.hist, 0, 255, cv2.NORM_MINMAX)  # reduces the extremes
         self.hist.reshape(-1)
 
@@ -98,7 +95,6 @@ class TrackedObject:
     def updateCenter(self):
         center = (self.track_window[0]+self.track_window[2]/2,
                   self.track_window[1]+self.track_window[3]/2)
-        #center = self.track_box[0]
         center=mf.intTuple(center)
         self.setCenterPoint(center)
 
@@ -108,13 +104,5 @@ class TrackedObject:
         self.setImage(cv2.blur(nImg, (5,5)))
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         self.prob &= self.maskImage
-        #print self.hist
-        #print self.track_window
-        # cv2.waitKey(0)
-        #print type(self.prob), "|", type(self.track_window), "|", type(self.term_crit)
-        #print self.prob, "|", self.track_window, "|", self.term_crit
-        print self.hist
-        print self.track_window
-        print tuple(self.track_window), prob, 
         self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 

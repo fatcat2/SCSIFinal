@@ -93,7 +93,6 @@ if __name__ == "__main__":
         origImg = img1
         img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
         contours = evaluateForContours(img1, ranges)
-        #img2 = numpy.zeros(img1.shape, numpy.uint8)
         img2 = origImg#prepImage(origImg)
         if contours is not None and len(contours) > 0:
             centers = getCentersAndBoxes(contours)
