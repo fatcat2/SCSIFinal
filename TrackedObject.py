@@ -26,14 +26,6 @@ class TrackedObject:
     x, y, w, h = 0, 0, 0, 0
     isTracking = False
 
-    # def __init__(self, box, center, image, colRng):
-    #     self.tracking_window = box
-    #     self.x, self.y, self.w, self.h = box
-    #     self.centerpoint = center
-    #     self.colRng=colRng
-    #     self.setImage(image)
-    #     self.initHSV()
-    #     self.term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # criteria for termination
     def __init__(self, coords, image, mask, hist):
         x0, y0, x1, y1 =  coords
         self.track_window = (x0, y0, x1-x0, y1-y0)
@@ -44,7 +36,6 @@ class TrackedObject:
         # self.initHSV()
 
     def initHSV(self):
-        # colImg=cv2.inRange(self.hsvImage, self.colRng[0], self.colRng[1])
         self.maskROI = self.maskImage[self.y:self.y + self.h, self.x:self.x + self.w]
         self.hsvROI = self.hsvImage[self.y:self.y + self.h, self.x:self.x + self.w]
         # cv2.imshow("Showimage "+str(self), cv2.cvtColor(self.hsvImage & cv2.merge((colImg, colImg, colImg)), cv2.COLOR_HSV2BGR))
@@ -107,6 +98,7 @@ class TrackedObject:
     def updateCenter(self):
         center = (self.tracking_window[0]+self.tracking_window[2]/2,
                   self.tracking_window[1]+self.tracking_window[3]/2)
+        #center = self.track_box[0]
         center=mf.intTuple(center)
         self.setCenterPoint(center)
 
@@ -118,6 +110,6 @@ class TrackedObject:
         self.prob &= self.maskImage
         print self.hist
         print self.track_window
-        cv2.waitKey(0)
+        # cv2.waitKey(0)
         self.track_box, self.track_window = cv2.CamShift(self.prob, tuple(self.track_window), self.term_crit)
         self.updateCenter() 
