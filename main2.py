@@ -67,7 +67,7 @@ def getNextFrame(vidObj):
     return frame
 
 #create the camera boject
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
 ret, frame = cam.read() #return boolean retval and the image obtained by the camera
 frame = cv2.resize(frame, dsize = (0, 0), fx = 0.5, fy = 0.5) #resizes the image in half to be more manageable
 
@@ -104,7 +104,7 @@ for i in range(1000):
         show_hist(hist)
 
     for obj in trackedObjectList:  # If tracking...
-        obj.update(frame)
+        obj.update(hsv)
         prob = cv2.calcBackProject([obj.getImage()], [0], obj.getHist(), [0, 180], 1) #calculates the probability of similarity
         prob &= obj.getMask() #adds the probability of hit rate to the mask
         #count gets rid after a certain count if it can't settle
@@ -112,7 +112,7 @@ for i in range(1000):
         if showBackProj:
             vis[:] = prob[...,np.newaxis]
         try:
-            cv2.circle(vis, obj.getTrackWindow()[:2], 2, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
+            cv2.circle(vis, obj.getCenterPoint(), 2, (0, 0, 255), 2) #draws the red ellipse with a stroke of 2 onto the copy of the frame, and uses the dimensions of the track_box variable
         except Exception as e:
             print e
             pass

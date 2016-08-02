@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bf5f1d4d-b8ba-438a-9ece-eaaac18a2bed" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrackedObject.py" afterPath="$PROJECT_DIR$/TrackedObject.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main2.py" afterPath="$PROJECT_DIR$/main2.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCSIFinal.iws" />
@@ -20,7 +21,7 @@
     <SUITE FILE_PATH="coverage/SCSIFinal$TrackedObject.coverage" NAME="TrackedObject Coverage Results" MODIFIED="1469821050328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SCSIFinal$main.coverage" NAME="main Coverage Results" MODIFIED="1470163517619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SCSIFinal$MultiFinder.coverage" NAME="MultiFinder Coverage Results" MODIFIED="1469644795883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SCSIFinal$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1470164910307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SCSIFinal$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1470165596958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -51,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1382" max-vertical-offset="1950">
-              <caret line="85" column="27" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+            <state vertical-scroll-proportion="-0.5316901" vertical-offset="1262" max-vertical-offset="1950">
+              <caret line="69" column="24" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -71,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackedObject.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TrackedObject.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrackedObject.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8415493" vertical-offset="1097" max-vertical-offset="1710">
-              <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="962" max-vertical-offset="1710">
+              <caret line="103" column="8" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -109,9 +110,9 @@
         <option value="$PROJECT_DIR$/skeleton.py" />
         <option value="$PROJECT_DIR$/STAYcamShiftDemo.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/main2.py" />
         <option value="$PROJECT_DIR$/MultiFinder.py" />
         <option value="$PROJECT_DIR$/TrackedObject.py" />
+        <option value="$PROJECT_DIR$/main2.py" />
       </list>
     </option>
   </component>
@@ -1067,22 +1068,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/skeleton.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1935">
-          <caret line="85" column="27" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MultiFinder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="909" max-vertical-offset="1485">
@@ -1106,13 +1091,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/skeleton.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <caret line="22" column="104" selection-start-line="22" selection-start-column="104" selection-end-line="22" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TrackedObject.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8415493" vertical-offset="1097" max-vertical-offset="1710">
-          <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="962" max-vertical-offset="1710">
+          <caret line="103" column="8" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5316901" vertical-offset="1262" max-vertical-offset="1950">
+          <caret line="69" column="24" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>

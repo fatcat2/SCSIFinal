@@ -101,7 +101,7 @@ class TrackedObject:
 
     def update(self, image):
         nImg=image
-        self.setImage(cv2.blur(nImg, (5,5)))
+        self.setImage(nImg)
         self.prob = cv2.calcBackProject([self.hsvImage], [0], self.hist, [0, 180], 1)
         cv2.imshow(":l",self.prob)
         self.prob &= self.maskImage
