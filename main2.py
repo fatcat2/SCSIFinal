@@ -84,13 +84,17 @@ def getNextFrame(vidObj):
     (Comment out that line if you want fullsize)."""
     ret, outframe = vidObj.read()
     # print type(vidObj), type(frame)
-    outframe = cv2.resize(outframe, (0, 0), fx=0.5, fy=0.5)
+    outframe = cv2.resize(outframe, dsize=(0, 0), fx=0.5, fy=0.5)
     return outframe
 
 #create the camera boject
 cam = cv2.VideoCapture(1)
 ret, frame = cam.read()  # return boolean retval and the image obtained by the camera
 frame = cv2.resize(frame, dsize=(0, 0), fx = 0.5, fy = 0.5)  # resizes the image in half to be more manageable
+fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+print frame.shape
+#shape = [frame.shape[0]*2]+[frame.shape[1]]
+writ = cv2.VideoWriter("Vid1.avi", fourcc, 25.0, frame.shape[:2][::-1], 1)
 
 #moving and naming windows to reduce overlap
 cv2.namedWindow('camshift')
@@ -99,7 +103,7 @@ cv2.namedWindow('hist')
 cv2.moveWindow('hist', 700, 100)   # Move to reduce overlap
 
 # start processing frames
-for i in range(3000):
+for i in range(2000):
     # print i
     frame = getNextFrame(cam)
     vis = frame.copy()
@@ -131,10 +135,15 @@ for i in range(3000):
     mrSkeletal.renderAllLinks(vis)
     cv2.imshow('Skeleton', black)
     cv2.imshow('camshift', vis)
-    cv2.imshow('HSV', cv2.cvtColor(vis,cv2.COLOR_BGR2HSV))
+    #out = np.concatenate((vis, black), axis=1)
+    print vis.shape
+    cv2.imshow("vid", vis)
+    writ.write(vis)
+    if trackedObjectList:
+        cv2.imshow('prob1', trackedObjectList[0].prob)
 
     ch = 0xFF & cv2.waitKey(5)
     if ch == 27:
         break
-        
+writ.release()
 cv2.destroyAllWindows()
