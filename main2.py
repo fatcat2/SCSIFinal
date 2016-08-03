@@ -15,7 +15,7 @@ frame = None
 hist = None
 maxDistance = 900
 trackedObjectList = []
-mrSkeletal = sk.Skeleton()
+mrSkeletal = sk.MidpointSkeleton()
 
 
 def onmouse(event, x, y, flags, param):
@@ -57,7 +57,9 @@ def onmouse(event, x, y, flags, param):
         for currCheck in trackedObjectList:
             if mf.distance(point, currCheck.getCenterPoint()) < maxDistance:
                 if isLinking:
-                    mrSkeletal.addLink(conn_start, currCheck)
+                    link = conn_start, currCheck
+                    if not (conn_start is currCheck or mrSkeletal.contains(link) or mrSkeletal.contains(link[::-1])):
+                        mrSkeletal.addLink(link[0], link[1])
                     isLinking = not isLinking
                 else:
                     conn_start = currCheck
@@ -86,7 +88,7 @@ def getNextFrame(vidObj):
     return outframe
 
 #create the camera boject
-cam = cv2.VideoCapture(1)
+cam = cv2.VideoCapture(-1)
 ret, frame = cam.read()  # return boolean retval and the image obtained by the camera
 frame = cv2.resize(frame, dsize=(0, 0), fx = 0.5, fy = 0.5)  # resizes the image in half to be more manageable
 
@@ -113,6 +115,7 @@ for i in range(1000):
         cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
         hist = hist.reshape(-1)
         show_hist(hist)
+
     if not isDragging and selection is not None:
         x0, y0, x1, y1 = selection
         x = to.TrackedObject((x0, y0, x1, y1), hsv, mask, hist)
@@ -122,12 +125,9 @@ for i in range(1000):
 
     for obj in trackedObjectList:  # If tracking...
         obj.update(hsv)
-        try:
-            mrSkeletal.renderAllLinks(vis)
-            cv2.circle(vis, obj.getCenterPoint(), 8, (0, 0, 255), 2)
-            cv2.circle(vis, obj.getCenterPoint(), 30, (125, 255, 125), 1)
-        except Exception as e:
-            print e
+        mrSkeletal.renderAllLinks(vis)
+        cv2.circle(vis, obj.getCenterPoint(), 8, (0, 0, 255), 2)
+        cv2.circle(vis, obj.getCenterPoint(), 30, (125, 255, 125), 1)
     cv2.imshow('camshift', vis)
 
     ch = 0xFF & cv2.waitKey(5)

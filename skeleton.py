@@ -5,8 +5,8 @@ class Skeleton:
     linkageList = []
     lineColor = (203, 192, 255)
 
-    def __init__(self, initLinks=[]):
-        self.linkageList = initLinks
+    def contains(self, a):
+        return a in self.linkageList
 
     def addLink(self, start, end):
         self.linkageList.append((start, end))
@@ -28,8 +28,8 @@ class Skeleton:
 
 class MidpointSkeleton(Skeleton):
     def renderLink(self, image, index):
-        super(image, index)
         link = self.linkageList[index]
         points = (link[0].getCenterPoint(), link[1].getCenterPoint())
+        cv2.line(image, points[0], points[1], self.lineColor, 4)
         point = ((points[0][0]+points[1][0])/2, (points[0][1]+points[1][1])/2,)
         cv2.circle(image, point, 3, (255, 0, 0), -1)
