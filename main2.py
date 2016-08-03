@@ -131,6 +131,7 @@ for i in range(3000):
     mrSkeletal.renderAllLinks(vis)
     cv2.imshow('Skeleton', black)
     cv2.imshow('camshift', vis)
+    cv2.imshow('HSV', cv2.cvtColor(vis,cv2.COLOR_BGR2HSV))
 
     ch = 0xFF & cv2.waitKey(5)
     if ch == 27:

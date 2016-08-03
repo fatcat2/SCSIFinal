@@ -122,13 +122,16 @@ for i in range(3000):
         trackedObjectList.append(x)
         selection = None
         show_hist(hist)
-
+    black = np.zeros(frame.shape)
     for obj in trackedObjectList:  # If tracking...
         obj.update(hsv)
-        mrSkeletal.renderAllLinks(vis)
         cv2.circle(vis, obj.getCenterPoint(), 8, (0, 0, 255), 2)
         cv2.circle(vis, obj.getCenterPoint(), 30, (125, 255, 125), 1)
+    mrSkeletal.renderAllLinks(black)
+    mrSkeletal.renderAllLinks(vis)
+    cv2.imshow('Skeleton', black)
     cv2.imshow('camshift', vis)
+    cv2.imshow('camshift', cv2.cvtColor(vis,cv2.COLOR_BGR2HSV))
 
     ch = 0xFF & cv2.waitKey(5)
     if ch == 27:
